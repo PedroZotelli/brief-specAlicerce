@@ -5,6 +5,7 @@ from datetime import UTC
 from pathlib import Path
 
 import pytest
+from conftest import make_file_symlink
 
 from briefspec.adapters import normalize_event
 from briefspec.adapters.base import (
@@ -146,7 +147,7 @@ def test_transcript_reader_refuses_symlinks(tmp_path: Path) -> None:
         encoding="utf-8",
     )
     link = tmp_path / "link.jsonl"
-    link.symlink_to(target)
+    make_file_symlink(link, target)
     assert read_last_assistant_message(link) is None
 
 

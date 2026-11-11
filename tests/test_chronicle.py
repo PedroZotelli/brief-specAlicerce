@@ -27,6 +27,7 @@ from brief_spec_chronicle.storage import (
     registered_project,
     verify_chain,
 )
+from conftest import make_file_symlink
 from jsonschema.validators import validator_for
 from referencing import Registry, Resource
 
@@ -493,7 +494,7 @@ def test_doctor_rejects_foreign_symlinks_without_touching_the_target(
     outside = tmp_path / "outside.txt"
     outside.write_text("foreign", encoding="utf-8")
     link = project_dir(registration["project_id"]) / "foreign-link"
-    link.symlink_to(outside)
+    make_file_symlink(link, outside)
     result = doctor(project, fix=True)
     assert result["status"] == "FAIL"
     assert outside.read_text(encoding="utf-8") == "foreign"

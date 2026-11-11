@@ -13,6 +13,7 @@ from typing import Any
 
 from briefspec.artifacts import canonical_json_bytes, sha256_bytes
 from briefspec.events import validate_event
+from briefspec.portability import is_link
 from briefspec.state import atomic_write
 
 from brief_spec_chronicle.derive import build_snapshot, validate_snapshot
@@ -309,7 +310,7 @@ def doctor(project: Path, *, fix: bool = False, dry_run: bool = False) -> dict[s
     registration = registered_project(project)
     root = project_dir(registration["project_id"])
     owned_paths = list(root.rglob("*"))
-    symlinks = [path for path in owned_paths if path.is_symlink()]
+    symlinks = [path for path in owned_paths if is_link(path)]
     checks.append(
         {
             "status": "FAIL" if symlinks else "PASS",
@@ -321,7 +322,7 @@ def doctor(project: Path, *, fix: bool = False, dry_run: bool = False) -> dict[s
     )
     private_dirs = [
         root,
-        *[path for path in owned_paths if not path.is_symlink() and path.is_dir()],
+        *[path for path in owned_paths if not is_link(path) and path.is_dir()],
     ]
     permission_bits_supported = os.name != "nt"
     bad_dirs = (
@@ -344,7 +345,7 @@ def doctor(project: Path, *, fix: bool = False, dry_run: bool = False) -> dict[s
             ),
         }
     )
-    private_files = [path for path in owned_paths if not path.is_symlink() and path.is_file()]
+    private_files = [path for path in owned_paths if not is_link(path) and path.is_file()]
     bad_files = (
         [path for path in private_files if path.stat().st_mode & 0o777 != 0o600]
         if permission_bits_supported
