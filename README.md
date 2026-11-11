@@ -292,7 +292,7 @@ A `.claude-plugin/` directory is present in this repository for local plugin dev
 
 ```bash
 # Install the public release
-uv tool install git+https://github.com/PedroZotelli/brief-specLuan.git@v0.5.0
+uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.0
 
 # Verify the installation
 brief-spec --version
@@ -359,7 +359,7 @@ Brief-Spec requires **Python 3.11+**. The canonical distribution is not yet on P
 ### Public release (v0.2.0)
 
 ```bash
-uv tool install git+https://github.com/PedroZotelli/brief-specLuan.git@v0.5.0
+uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.0
 ```
 
 ### Dogfood from checkout (0.5.0)
@@ -478,8 +478,8 @@ See [docs/repository-layout.md](docs/repository-layout.md) for the complete owne
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and quality gates.
 
 ```bash
-git clone https://github.com/PedroZotelli/brief-specLuan.git
-cd brief-specLuan
+git clone https://github.com/PedroZotelli/brief-specAlicerce.git
+cd brief-specAlicerce
 uv sync --group dev
 uv run ruff check .
 uv run ruff format --check .

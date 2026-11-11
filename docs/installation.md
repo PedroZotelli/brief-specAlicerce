@@ -21,7 +21,7 @@ pass. The retained five-host baseline is not an exact-current-worktree rerun.
 Install the public release:
 
 ```bash
-uv tool install git+https://github.com/PedroZotelli/brief-specLuan.git@v0.5.0
+uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.0
 briefspec install all --scope user
 briefspec doctor all --probe
 ```
@@ -184,14 +184,14 @@ The repository ships native manifests in addition to the portable installer.
 ### Codex
 
 ```bash
-codex plugin marketplace add PedroZotelli/brief-specLuan --ref v0.5.0
+codex plugin marketplace add PedroZotelli/brief-specAlicerce --ref v0.5.0
 codex plugin add brief-spec@brief-spec
 ```
 
 ### Claude Code
 
 ```bash
-claude plugin marketplace add PedroZotelli/brief-specLuan
+claude plugin marketplace add PedroZotelli/brief-specAlicerce
 claude plugin install brief-spec@brief-spec --scope user
 ```
 
@@ -200,7 +200,7 @@ For local development, pass the absolute checkout path to each marketplace comma
 ### Copilot CLI
 
 ```bash
-copilot plugin marketplace add PedroZotelli/brief-specLuan
+copilot plugin marketplace add PedroZotelli/brief-specAlicerce
 copilot plugin install brief-spec@brief-spec
 ```
 

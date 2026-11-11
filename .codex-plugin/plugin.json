@@ -6,8 +6,8 @@
     "name": "Luan Moreno Maciel",
     "url": "https://github.com/luanmorenommaciel"
   },
-  "homepage": "https://github.com/PedroZotelli/brief-specLuan",
-  "repository": "https://github.com/PedroZotelli/brief-specLuan",
+  "homepage": "https://github.com/PedroZotelli/brief-specAlicerce",
+  "repository": "https://github.com/PedroZotelli/brief-specAlicerce",
   "license": "MIT",
   "keywords": [
     "brief",
@@ -25,7 +25,7 @@
     "capabilities": [
       "Interactive"
     ],
-    "websiteURL": "https://github.com/PedroZotelli/brief-specLuan",
+    "websiteURL": "https://github.com/PedroZotelli/brief-specAlicerce",
     "defaultPrompt": [
       "Close this task with an evidence-backed Outcome Brief",
       "Orient me with a Session Checkpoint",

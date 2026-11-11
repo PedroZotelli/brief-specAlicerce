@@ -5,7 +5,11 @@ This project uses semantic versioning.
 
 ## [Unreleased]
 
-Pedro Zotelli's line of this fork (https://github.com/PedroZotelli/brief-specLuan).
+### Changed
+
+- The repository is now `PedroZotelli/brief-specAlicerce`, a standalone repository (no longer in the original's fork network). Links, install commands and manifests use the new name; GitHub redirects the old one.
+
+Pedro Zotelli's line of this fork (https://github.com/PedroZotelli/brief-specAlicerce).
 Authorship of the original work stays with Luan Moreno Maciel; see `NOTICE`.
 
 ### Fixed
