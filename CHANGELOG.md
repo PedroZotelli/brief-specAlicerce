@@ -11,6 +11,11 @@ This project uses semantic versioning.
 - The contributor context file moved from `CLAUDE.md` to `.claude/CLAUDE.md`
   (Claude Code still loads it in this repository). A `CLAUDE.md` at a plugin
   root is not plugin context, and `claude plugin validate --strict` rejects it.
+- The audio renderer smoke no longer requires two macOS renderings to be
+  byte-identical: current macOS speech synthesis varies slightly between runs.
+  It now requires matching duration within 2%; the bundle verifier still checks
+  decoding, the source-Script hash and the AI disclosure. `docs/verification.md`
+  no longer claims deterministic audio bytes. PDF stays byte-identical.
 
 Pedro Zotelli's line of this fork (https://github.com/PedroZotelli/brief-specAlicerce).
 Authorship of the original work stays with Luan Moreno Maciel; see `NOTICE`.

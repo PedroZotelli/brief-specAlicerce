@@ -4,11 +4,33 @@
 from __future__ import annotations
 
 import argparse
+import shutil
+import subprocess
 import tempfile
 import zipfile
 from pathlib import Path
 
 from briefspec.cli import main
+
+# macOS speech synthesis is not byte-deterministic between runs, so two audio
+# renderings of one canonical script are compared by measured duration instead.
+# The bundle verifier still checks the source-script hash and the AI disclosure.
+AUDIO_DURATION_TOLERANCE = 0.02
+
+
+def _audio_duration(path: Path) -> float:
+    ffprobe = shutil.which("ffprobe")
+    if ffprobe is None:
+        raise RuntimeError("ffprobe is required to compare audio renderings")
+    result = subprocess.run(
+        [ffprobe, "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(path)],
+        capture_output=True,
+        text=True,
+        timeout=60,
+        check=True,
+    )
+    return float(result.stdout.strip())
+
 
 OUTCOME = """<!-- briefspec:outcome:v1 -->
 Status: DONE
@@ -83,10 +105,19 @@ def main_command() -> int:
             return 1
         with zipfile.ZipFile(root / "delivery.zip") as archive:
             bundled_name = "brief.pdf" if args.renderer == "pdf" else "brief.mp3"
-            if artifact.read_bytes() != archive.read(bundled_name):
+            bundled = archive.read(bundled_name)
+        if args.renderer == "pdf":
+            if artifact.read_bytes() != bundled:
+                raise RuntimeError("repeated canonical pdf rendering was not byte-identical")
+        else:
+            bundled_copy = root / "bundled.mp3"
+            bundled_copy.write_bytes(bundled)
+            first, second = _audio_duration(artifact), _audio_duration(bundled_copy)
+            if first <= 0 or abs(first - second) > AUDIO_DURATION_TOLERANCE * first:
                 raise RuntimeError(
-                    f"repeated canonical {args.renderer} rendering was not byte-identical"
+                    f"repeated canonical audio durations differ: {first:.3f}s vs {second:.3f}s"
                 )
+            print(f"  PASS audio repeat: durations {first:.3f}s and {second:.3f}s agree within 2%")
         return main(
             [
                 "verify",
