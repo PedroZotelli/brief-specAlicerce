@@ -8,6 +8,9 @@ This project uses semantic versioning.
 ### Changed
 
 - The repository is now `PedroZotelli/brief-specAlicerce`, a standalone repository (no longer in the original's fork network). Links, install commands and manifests use the new name; GitHub redirects the old one.
+- The contributor context file moved from `CLAUDE.md` to `.claude/CLAUDE.md`
+  (Claude Code still loads it in this repository). A `CLAUDE.md` at a plugin
+  root is not plugin context, and `claude plugin validate --strict` rejects it.
 
 Pedro Zotelli's line of this fork (https://github.com/PedroZotelli/brief-specAlicerce).
 Authorship of the original work stays with Luan Moreno Maciel; see `NOTICE`.
