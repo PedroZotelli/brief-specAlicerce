@@ -1,0 +1,6 @@
+# Os mesmos bytes em Linux, macOS e Windows, independentemente de core.autocrlf.
+* text=auto eol=lf
+*.png binary
+*.mp3 binary
+*.mp4 binary
+*.pdf binary

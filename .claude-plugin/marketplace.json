@@ -1,7 +1,8 @@
 {
   "name": "brief-spec",
   "owner": {
-    "name": "Luan Moreno Maciel"
+    "name": "Pedro Zotelli",
+    "url": "https://github.com/PedroZotelli"
   },
   "metadata": {
     "description": "Brief-Spec cross-agent presentation contract",

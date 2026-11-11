@@ -5,6 +5,26 @@ This project uses semantic versioning.
 
 ## [Unreleased]
 
+Pedro Zotelli's line of this fork (https://github.com/PedroZotelli/brief-specLuan).
+Authorship of the original work stays with Luan Moreno Maciel; see `NOTICE`.
+
+### Fixed
+
+- Run on Windows as well as Linux and macOS. The Chronicle export builds its
+  deterministic zip in memory, because Windows cannot reopen an open temporary
+  file by name.
+- Treat Windows directory junctions as links wherever symlinks are refused
+  (`briefspec.portability.is_link`). A junction needs no privilege to create and
+  `Path.is_symlink` does not see it.
+- Pin LF line endings in `.gitattributes`, so CRLF checkouts no longer change
+  hashed or executed files.
+
+### Changed
+
+- Install commands, plugin manifests, and marketplace ownership point to the fork,
+  so nothing on the install path depends on the original repository. Schema `$id`
+  identifiers keep their original values so existing briefs stay valid.
+
 ### Added
 
 - `brief-spec frame` with versioned request and receipt schemas for bounded,

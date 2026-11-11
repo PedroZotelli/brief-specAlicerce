@@ -15,6 +15,7 @@ from typing import Any
 from briefspec.artifacts import canonical_json_bytes, sha256_bytes
 from briefspec.config import briefspec_home
 from briefspec.events import prepare_event, validate_event
+from briefspec.portability import is_link
 from briefspec.state import atomic_write
 
 ZERO_HASH = "0" * 64
@@ -200,7 +201,7 @@ def iter_events(project_id: str) -> Iterator[dict[str, Any]]:
         return
     loaded: list[dict[str, Any]] = []
     for segment in sorted(root.glob("*.ndjson")):
-        if segment.is_symlink():
+        if is_link(segment):
             raise ValueError(f"Chronicle event segment must not be a symlink: {segment.name}")
         with segment.open(encoding="utf-8") as handle:
             for line_number, line in enumerate(handle, start=1):

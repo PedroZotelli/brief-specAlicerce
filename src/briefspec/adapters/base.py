@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from briefspec.models import EventType, Runtime, RuntimeEvent
+from briefspec.portability import is_link
 
 MAX_TRANSCRIPT_BYTES = 256 * 1024
 
@@ -88,7 +89,7 @@ def _content_text(content: Any) -> str | None:
 def read_last_assistant_message(path: Path) -> str | None:
     """Read a bounded transcript tail without following a symlink."""
     try:
-        if path.is_symlink() or not path.is_file():
+        if is_link(path) or not path.is_file():
             return None
         size = path.stat().st_size
         with path.open("rb") as handle:

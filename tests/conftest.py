@@ -19,6 +19,21 @@ if str(VIDEO_SRC) not in sys.path:
     sys.path.insert(0, str(VIDEO_SRC))
 
 
+def make_file_symlink(link: Path, target: Path) -> None:
+    """Create a file symlink, or skip where this host forbids it.
+
+    Unprivileged Windows accounts cannot create file symlinks (WinError 1314);
+    privileged CI runners and POSIX hosts can, and run the test in full.
+    """
+
+    try:
+        link.symlink_to(target)
+    except OSError as error:
+        if sys.platform == "win32" and getattr(error, "winerror", None) == 1314:
+            pytest.skip("file symlinks need a privilege this Windows account does not have")
+        raise
+
+
 @pytest.fixture(autouse=True)
 def hermetic_host_cli_discovery(monkeypatch: pytest.MonkeyPatch) -> None:
     """Tests opt into fake CLIs explicitly and never inherit maintainer PATH state."""

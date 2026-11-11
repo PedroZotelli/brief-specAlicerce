@@ -9,6 +9,7 @@ from types import SimpleNamespace
 from typing import Any
 
 import pytest
+from conftest import make_file_symlink
 
 from briefspec import bundle as bundle_module
 from briefspec import renderers, state
@@ -260,7 +261,7 @@ def test_resolver_rejects_symlink_escape(tmp_path: Path) -> None:
     workspace.mkdir()
     outside = tmp_path / "outside.txt"
     outside.write_text("outside\n", encoding="utf-8")
-    (workspace / "escape.txt").symlink_to(outside)
+    make_file_symlink(workspace / "escape.txt", outside)
     delivery = _delivery()
     delivery["brief"]["proof"] = [
         {
