@@ -494,7 +494,9 @@ def atomic_external_write(path: Path, content: bytes, *, force: bool = False) ->
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     temp = Path(temporary)
     try:
-        os.fchmod(descriptor, 0o644)
+        # Windows before Python 3.13 has no os.fchmod, and NTFS ignores POSIX modes.
+        if hasattr(os, "fchmod"):
+            os.fchmod(descriptor, 0o644)
         with os.fdopen(descriptor, "wb") as handle:
             handle.write(content)
             handle.flush()

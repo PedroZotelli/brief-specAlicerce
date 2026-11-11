@@ -29,7 +29,9 @@ def _atomic_write(path: Path, content: bytes, mode: int, *, private_parent: bool
     descriptor, raw_temp = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     temp_path = Path(raw_temp)
     try:
-        os.fchmod(descriptor, mode)
+        # Windows before Python 3.13 has no os.fchmod, and NTFS ignores POSIX modes.
+        if hasattr(os, "fchmod"):
+            os.fchmod(descriptor, mode)
         with os.fdopen(descriptor, "wb") as handle:
             handle.write(content)
             handle.flush()
