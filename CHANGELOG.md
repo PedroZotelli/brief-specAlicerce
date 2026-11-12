@@ -5,11 +5,33 @@ This project uses semantic versioning.
 
 ## [Unreleased]
 
-Pedro Zotelli's line of this fork (https://github.com/PedroZotelli/brief-specLuan).
+### Changed
+
+- The repository is now `PedroZotelli/brief-specAlicerce`, a standalone repository (no longer in the original's fork network). Links, install commands and manifests use the new name; GitHub redirects the old one.
+- The contributor context file moved from `CLAUDE.md` to `.claude/CLAUDE.md`
+  (Claude Code still loads it in this repository). A `CLAUDE.md` at a plugin
+  root is not plugin context, and `claude plugin validate --strict` rejects it.
+- The audio renderer smoke no longer requires two macOS renderings to be
+  byte-identical: current macOS speech synthesis varies slightly between runs.
+  It now requires matching duration within 2%; the bundle verifier still checks
+  decoding, the source-Script hash and the AI disclosure. `docs/verification.md`
+  no longer claims deterministic audio bytes. PDF stays byte-identical.
+- CI builds and clean-room installs the exact-SHA candidate even when the
+  retained live-host evidence does not match the source bytes; it then skips
+  the release authorization and shows a "Not release-authorized" warning.
+  `release.yml` still refuses to publish a candidate without that
+  authorization, so a release still needs a fresh live-host matrix.
+
+Pedro Zotelli's line of this fork (https://github.com/PedroZotelli/brief-specAlicerce).
 Authorship of the original work stays with Luan Moreno Maciel; see `NOTICE`.
 
 ### Fixed
 
+- The Chronicle project lock no longer orphans itself on Windows. A lock file
+  another thread or process has open (a concurrent `stat`, an antivirus scan)
+  raises `PermissionError` on create or delete; acquiring now treats that as
+  contention and releasing retries briefly. Seen once on a hosted Windows
+  runner as a lock timeout in the concurrent-ingestion test.
 - Run on Windows as well as Linux and macOS. The Chronicle export builds its
   deterministic zip in memory, because Windows cannot reopen an open temporary
   file by name.

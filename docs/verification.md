@@ -88,7 +88,7 @@ release workflow must reuse those hosted bytes unchanged.
 | --- | --- |
 | Self-contained HTML | PASS at desktop and mobile widths with zero external requests |
 | Playwright PDF | PASS for selectable text, fonts, metadata, geometry, page rendering, and deterministic bundle bytes |
-| Offline macOS audio | PASS for MP3 decoding, duration, disclosure, source-script hash, and deterministic bundle bytes |
+| Offline macOS audio | PASS for MP3 decoding, duration, disclosure, and source-script hash. Audio bytes are **not** deterministic: macOS speech synthesis varies slightly between runs (seen on macOS 26.7 hosted runners), so a repeated rendering is checked by matching duration within 2%, not by identical bytes |
 | Offline Chronicle video | PASS for offline 1600x900 H.264/AAC rendering, sidecars, manifest/receipt integrity, and source hashes |
 | Explicit-consent OpenAI audio | Not run because OPENAI_API_KEY is absent; mocked coverage passed |
 

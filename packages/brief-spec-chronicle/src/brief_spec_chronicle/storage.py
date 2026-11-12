@@ -149,6 +149,26 @@ def registered_project(project: Path) -> dict[str, Any]:
     return value
 
 
+# On Windows a file another thread or process has open (a concurrent stat, an
+# antivirus scan) cannot be created over or deleted: both raise PermissionError
+# instead of FileExistsError or succeeding. Treat it as contention, and retry
+# the release so a lock is not orphaned until it goes stale.
+_WINDOWS = os.name == "nt"
+_LOCK_BUSY = (FileExistsError, PermissionError) if _WINDOWS else (FileExistsError,)
+
+
+def _release_lock(lock: Path, attempts: int = 80) -> None:
+    for _ in range(attempts - 1):
+        try:
+            lock.unlink(missing_ok=True)
+            return
+        except PermissionError:
+            if not _WINDOWS:
+                raise
+            time.sleep(0.025)
+    lock.unlink(missing_ok=True)
+
+
 @contextmanager
 def project_lock(project_id: str, timeout: float = 3.0) -> Iterator[None]:
     locks = chronicle_home() / "locks"
@@ -161,7 +181,7 @@ def project_lock(project_id: str, timeout: float = 3.0) -> Iterator[None]:
             os.write(descriptor, str(os.getpid()).encode())
             os.close(descriptor)
             break
-        except FileExistsError:
+        except _LOCK_BUSY:
             with suppress(OSError):
                 if time.time() - lock.stat().st_mtime > 30:
                     lock.unlink(missing_ok=True)
@@ -172,7 +192,7 @@ def project_lock(project_id: str, timeout: float = 3.0) -> Iterator[None]:
     try:
         yield
     finally:
-        lock.unlink(missing_ok=True)
+        _release_lock(lock)
 
 
 def order_events(loaded: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -494,7 +514,9 @@ def atomic_external_write(path: Path, content: bytes, *, force: bool = False) ->
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     temp = Path(temporary)
     try:
-        os.fchmod(descriptor, 0o644)
+        # Windows before Python 3.13 has no os.fchmod, and NTFS ignores POSIX modes.
+        if hasattr(os, "fchmod"):
+            os.fchmod(descriptor, 0o644)
         with os.fdopen(descriptor, "wb") as handle:
             handle.write(content)
             handle.flush()

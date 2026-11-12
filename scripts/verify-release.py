@@ -170,9 +170,12 @@ ROOT_REFERENCE = re.compile(
     r"/(?P<target>[A-Za-z0-9._/-]+)"
 )
 EVENT_ARGUMENT = re.compile(r"(?:^|\s)--event\s+(?P<event>[A-Za-z][A-Za-z0-9]*)")
+# The README renders badges as HTML <img> (centered row); Markdown badges stay valid.
 README_VERSION_BADGE = re.compile(
     r"\[!\[Source candidate (?P<label>\d+\.\d+\.\d+)\]"
     r"\(https://img\.shields\.io/badge/source_candidate-(?P<badge>\d+\.\d+\.\d+)-"
+    r"|<img src=\"https://img\.shields\.io/badge/source_candidate-(?P<html_badge>\d+\.\d+\.\d+)-[^\"]*\""
+    r" alt=\"Source candidate (?P<html_label>\d+\.\d+\.\d+)\""
 )
 VERIFICATION_MARKER = re.compile(
     r"<!-- briefspec:verification:v1 version=(?P<version>\d+\.\d+\.\d+) -->"
@@ -410,7 +413,8 @@ def check_versioned_release_evidence(verifier: Verifier, version: str) -> None:
     verifier.require(badge is not None, "README.md: version badge is missing or malformed")
     if badge is not None:
         verifier.require(
-            badge.group("label") == version and badge.group("badge") == version,
+            (badge.group("label") or badge.group("html_label")) == version
+            and (badge.group("badge") or badge.group("html_badge")) == version,
             f"README.md: version badge must match {version}",
         )
     verifier.require(
@@ -478,7 +482,10 @@ def check_marketplaces(
         entry = plugins[0]
         verifier.require(entry.get("name") == "brief-spec", f"{relative}: plugin name mismatch")
         source = marketplace_source(entry)
-        verifier.require(source == ".", f"{relative}: plugin source must be the repository root")
+        # Claude Code needs "./" for a repository-root plugin; "." names the same root.
+        verifier.require(
+            source in {".", "./"}, f"{relative}: plugin source must be the repository root"
+        )
         if relative == Path(".agents/plugins/marketplace.json"):
             policy = entry.get("policy")
             verifier.require(
