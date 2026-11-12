@@ -743,6 +743,36 @@ def test_concurrent_ingestion_serializes_one_valid_hash_chain(
     assert verify_chain(events) == []
 
 
+def test_lock_release_retries_a_windows_sharing_violation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from brief_spec_chronicle import storage
+
+    lock = tmp_path / "busy.lock"
+    lock.write_text("1", encoding="utf-8")
+    real_unlink = Path.unlink
+    calls = {"count": 0}
+
+    def flaky_unlink(self: Path, missing_ok: bool = False) -> None:
+        calls["count"] += 1
+        if calls["count"] < 3:
+            raise PermissionError("in use by another process")
+        real_unlink(self, missing_ok=missing_ok)
+
+    monkeypatch.setattr(storage, "_WINDOWS", True)
+    monkeypatch.setattr(storage.time, "sleep", lambda _seconds: None)
+    monkeypatch.setattr(Path, "unlink", flaky_unlink)
+    storage._release_lock(lock)
+    assert calls["count"] == 3
+    assert not lock.exists()
+
+    monkeypatch.setattr(storage, "_WINDOWS", False)
+    calls["count"] = 0
+    lock.write_text("1", encoding="utf-8")
+    with pytest.raises(PermissionError):
+        storage._release_lock(lock)
+
+
 def test_doctor_rebuilds_a_missing_derived_index(
     chronicle_project: tuple[Path, dict[str, object]],
 ) -> None:

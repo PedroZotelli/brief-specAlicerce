@@ -27,6 +27,11 @@ Authorship of the original work stays with Luan Moreno Maciel; see `NOTICE`.
 
 ### Fixed
 
+- The Chronicle project lock no longer orphans itself on Windows. A lock file
+  another thread or process has open (a concurrent `stat`, an antivirus scan)
+  raises `PermissionError` on create or delete; acquiring now treats that as
+  contention and releasing retries briefly. Seen once on a hosted Windows
+  runner as a lock timeout in the concurrent-ingestion test.
 - Run on Windows as well as Linux and macOS. The Chronicle export builds its
   deterministic zip in memory, because Windows cannot reopen an open temporary
   file by name.
