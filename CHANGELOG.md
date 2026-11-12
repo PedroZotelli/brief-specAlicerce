@@ -16,6 +16,11 @@ This project uses semantic versioning.
   It now requires matching duration within 2%; the bundle verifier still checks
   decoding, the source-Script hash and the AI disclosure. `docs/verification.md`
   no longer claims deterministic audio bytes. PDF stays byte-identical.
+- CI builds and clean-room installs the exact-SHA candidate even when the
+  retained live-host evidence does not match the source bytes; it then skips
+  the release authorization and shows a "Not release-authorized" warning.
+  `release.yml` still refuses to publish a candidate without that
+  authorization, so a release still needs a fresh live-host matrix.
 
 Pedro Zotelli's line of this fork (https://github.com/PedroZotelli/brief-specAlicerce).
 Authorship of the original work stays with Luan Moreno Maciel; see `NOTICE`.

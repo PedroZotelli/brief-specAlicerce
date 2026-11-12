@@ -225,16 +225,23 @@ jobs:
           "$smoke_env/bin/brief-spec" --version
           "$smoke_env/bin/briefspec" --version
           "$smoke_env/bin/brief-spec" capabilities all --json
-      - name: Create exact-SHA release authorization
+      - name: Create exact-SHA release authorization (only when live evidence matches)
         env:
           CANDIDATE_SHA: ${{ github.sha }}
           WORKFLOW_RUN_ID: ${{ github.run_id }}
         run: |
           python scripts/build-schema-bundle.py --output dist/brief-spec-schemas.bundle.json
-          python scripts/build-release-authorization.py \
-            --sha "$CANDIDATE_SHA" \
-            --run-id "$WORKFLOW_RUN_ID" \
-            --dist dist
+          # Live-host evidence is bound to the release-relevant source bytes. When it
+          # does not match, the candidate is still built and tested but carries no
+          # authorization, so release.yml refuses to publish it (fail closed).
+          if python scripts/build-live-e2e-evidence.py --check --require-authorized; then
+            python scripts/build-release-authorization.py \
+              --sha "$CANDIDATE_SHA" \
+              --run-id "$WORKFLOW_RUN_ID" \
+              --dist dist
+          else
+            echo "::warning title=Not release-authorized::Live-host evidence does not match these source bytes. This candidate cannot be released until the live-host matrix is re-run and retained (scripts/build-live-e2e-evidence.py)."
+          fi
           python scripts/build-release-manifest.py --dist dist
       - name: Attest exact candidate distributions
         uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.1
