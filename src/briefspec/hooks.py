@@ -48,6 +48,25 @@ def _typed_marker(state: SessionState) -> str:
     )
 
 
+# A follow-up shorter than this ("ok", "merge done", "continue") is not a new task:
+# it gets a few lines, not the full profile. Same floor as ``is_substantive``.
+SHORT_FOLLOW_UP_WORDS = 4
+SHORT_FOLLOW_UP_CONTEXT = (
+    "Brief-Spec: short follow-up. Answer in a few lines, in proportion to the message. "
+    "Do not repeat the full profile sections; use the typed Outcome Brief only if this "
+    "message closes a substantive task."
+)
+
+
+def _is_short_follow_up(prompt: str) -> bool:
+    value = prompt.strip()
+    return (
+        bool(value)
+        and len(value.split()) < SHORT_FOLLOW_UP_WORDS
+        and ("brief-spec" not in value.lower())
+    )
+
+
 def _classification_context(state: SessionState) -> str:
     profile = type_profile(state.work_type or "general")
     sections = ", ".join(section.label for section in profile.sections)
@@ -203,7 +222,11 @@ def process_event(
             ):
                 decision = HookDecision(context=SESSION_CONTEXT)
             elif event.type is EventType.USER_PROMPT and state.work_type:
-                decision = HookDecision(context=_classification_context(state))
+                decision = HookDecision(
+                    context=SHORT_FOLLOW_UP_CONTEXT
+                    if _is_short_follow_up(prompt)
+                    else _classification_context(state)
+                )
 
             if (
                 event.type is EventType.POST_TOOL

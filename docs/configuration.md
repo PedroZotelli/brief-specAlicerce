@@ -40,6 +40,13 @@ sticky = true
 retention_days = 14
 ```
 
+### Proportional follow-ups
+
+Once a session has a work type, each substantive prompt receives the type's full explanation
+profile. A follow-up of fewer than four words that does not name Brief-Spec ("ok", "merge done",
+"continue") instead receives a short instruction to answer in a few lines; the typed Outcome Brief
+is still used when such a message closes a substantive task. The work type stays as it was.
+
 ### Checkpoint policies
 
 - `off`: no lifecycle checkpoint behavior; explicit skill use remains possible.

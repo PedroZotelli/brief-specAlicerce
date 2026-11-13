@@ -5,6 +5,13 @@ This project uses semantic versioning.
 
 ## [Unreleased]
 
+### Changed
+
+- Proportional answers: a follow-up of fewer than four words ("ok", "merge done",
+  "continue") no longer receives the full work-type profile on every prompt; the
+  hook asks for a few lines instead and keeps the session's work type. Prompts that
+  name Brief-Spec, and every longer prompt, keep the full profile.
+
 ### Documentation
 
 - README: Brief-Spec runs on Linux, macOS, and Windows; the install section is "From the tag (v0.5.0)" (it said "Public release (v0.2.0)" above a v0.5.0 command); release truth marks v0.2.0 as the original project's release and records 0.5.0's hosted CI and the pending live-host authorization.
