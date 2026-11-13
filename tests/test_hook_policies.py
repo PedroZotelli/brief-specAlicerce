@@ -93,6 +93,34 @@ def test_kimi_content_part_prompt_is_classified_from_text(
     assert state.subject == "pull-request"
 
 
+def test_short_follow_up_gets_proportional_context_not_full_profile(
+    isolated_homes: dict[str, Path],
+) -> None:
+    first, first_payload = event(
+        Runtime.CLAUDE,
+        "UserPromptSubmit",
+        "short-follow-up",
+        prompt="Review pull request #42 and identify its merge risk.",
+    )
+    assert "Use the brief-spec skill" in (
+        process_event(first, first_payload, policy_config()).context or ""
+    )
+    for text in ("Merge feito", "continue", "Como estamos?"):
+        later, later_payload = event(
+            Runtime.CLAUDE, "UserPromptSubmit", "short-follow-up", prompt=text
+        )
+        context = process_event(later, later_payload, policy_config()).context or ""
+        assert "short follow-up" in context
+        assert "Use the brief-spec skill" not in context
+    explicit, explicit_payload = event(
+        Runtime.CLAUDE, "UserPromptSubmit", "short-follow-up", prompt="brief-spec please"
+    )
+    assert "Use the brief-spec skill" in (
+        process_event(explicit, explicit_payload, policy_config()).context or ""
+    )
+    assert load_session(Runtime.CLAUDE, "short-follow-up", NOW).work_type == "review"
+
+
 def test_suggest_policy_adds_context_after_eligible_tool_boundary(
     isolated_homes: dict[str, Path],
 ) -> None:
