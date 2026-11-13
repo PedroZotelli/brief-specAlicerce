@@ -354,9 +354,10 @@ Project values override user values. See [docs/configuration.md](docs/configurat
 
 ## Install
 
-Brief-Spec requires **Python 3.11+**. The canonical distribution is not yet on PyPI.
+Brief-Spec requires **Python 3.11+** and runs on Linux, macOS, and Windows (native
+Python; no administrator rights). The canonical distribution is not yet on PyPI.
 
-### Public release (v0.2.0)
+### From the tag (v0.5.0)
 
 ```bash
 uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.0
@@ -439,8 +440,8 @@ Read the complete [Human Continuity architecture](docs/human-continuity.md).
 
 | Version | State | Notes |
 | --- | --- | --- |
-| v0.2.0 | Published GitHub release | Latest public release |
-| 0.5.0 | Source candidate | Locally verified; awaits live/hosted/publication gates |
+| v0.2.0 | Published GitHub release of the original project | Not a release of this repository |
+| 0.5.0 | Source candidate, tag `v0.5.0` | Hosted CI green on Linux, macOS, and Windows (Python 3.11–3.14); not release-authorized until the five-host live matrix is re-run on this line; not published |
 | 0.3.0, 0.4.0 | Unpublished | Folded into 0.5.0 |
 
 "Locally verified" does not mean hosted or published. See the full [changelog](CHANGELOG.md) and [verification record](docs/verification.md).
