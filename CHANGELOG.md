@@ -5,6 +5,28 @@ This project uses semantic versioning.
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-11-14 (source candidate, not published)
+
+A patch version so that installed copies pick the changes up: Claude Code updates
+a plugin only when its version number changes, and the changes below had been
+merged while the version stayed at 0.5.0.
+
+### Release truth
+
+- `release/truth-boundary.json` and the generated `docs/verification.md` describe
+  0.5.1 in this repository: what was measured here (local suite and source release
+  verification on Windows; hosted CI on the revision the candidate was cut from)
+  and, as `NOT EXECUTED`, everything that was not (wheel and sdist gates, browser,
+  PDF, audio and video gates, global rollout, the five-host live matrix,
+  publication). The record used to carry the original project's 0.5.0 measurements
+  and named the original repository.
+- Project URLs (`pyproject.toml`, `plugin.json`, the release-manifest default) and
+  the README release badge point to this repository; they pointed to the original
+  project, including the issue tracker. Schema identifiers keep the namespace they
+  were issued under: they are names, and the schemas are unchanged since 0.5.0.
+- `tests/test_metadata.py` fails if a project URL or the truth boundary names
+  another repository.
+
 ### Added
 
 - The classifier reads Portuguese. The keyword rules only knew English, so a

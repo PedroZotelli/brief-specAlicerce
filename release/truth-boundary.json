@@ -1,42 +1,46 @@
 {
   "schema_version": "1.0",
   "kind": "brief-spec-truth-boundary",
-  "version": "0.5.0",
-  "updated_at": "2026-08-15",
-  "source_revision": "872a85b110866dee52d7fae440d39fbbeace7883",
-  "repository": "luanmorenommaciel/brief-spec",
+  "version": "0.5.1",
+  "updated_at": "2026-11-14",
+  "source_revision": "e0879856cd27f61b7fc91426052c4b2897456dda",
+  "repository": "PedroZotelli/brief-specAlicerce",
   "repository_visibility": "public",
-  "latest_public_release": "v0.2.0",
-  "candidate_state": "Locally validated release candidate from an uncommitted worktree",
+  "latest_public_release": "none in this repository",
+  "latest_public_release_state": "This repository has published no release. `v0.2.0` is a release of the original project",
+  "candidate_state": "Patch candidate on a branch of this repository; not tagged and not published",
   "local_evidence": {
-    "tests": 504,
+    "tests": 572,
     "release_checks": 427,
-    "wheel_release_checks": 504,
-    "coverage_percent": 85.35,
-    "python": "3.14.6",
-    "platform": "macOS",
-    "current_state": "Lint, formatting, release verification, 504 tests, coverage, Chronicle E2E, browser, PDF, audio, video, and clean-room wheel/sdist gates pass locally"
+    "wheel_release_checks": "NOT EXECUTED (no wheel was built from this revision)",
+    "coverage_percent": 85.59,
+    "python": "3.13.0",
+    "platform": "Windows 11",
+    "current_state": "Lint, formatting, source release verification, and the test suite (572 passed, 3 skipped) pass locally. The wheel and sdist clean-room gates, Chronicle E2E, browser, PDF, audio, and video gates were NOT EXECUTED locally for 0.5.1"
   },
   "candidate_artifacts": {
-    "directory": ".briefspec/fabric-candidate-final-20260815",
-    "release_manifest_sha256": "4236b514bf10ef719820d77c5d1eb3bf94603810d00e9ac836f17e6c5f7e9af5",
-    "core_wheel_sha256": "134c139c7cf52e566cdd2a85f00c09e31c434fdf5fd75bf3a17695fe9eb20500",
-    "schema_bundle_sha256": "bcf216a45136afd643055d4e343fe4564b7058c844d9817626c7c1a9bebc86b8",
-    "state": "Ten core/PDF/audio/Chronicle/video wheel and sdist files pass Twine, SHA-256, resource projection, and exact-file wheel/sdist clean-room installation"
+    "directory": "NOT EXECUTED",
+    "release_manifest_sha256": "NOT EXECUTED",
+    "core_wheel_sha256": "NOT EXECUTED",
+    "schema_bundle_sha256": "NOT EXECUTED",
+    "state": "NOT EXECUTED for 0.5.1: no wheel, sdist, or release manifest was built locally from this revision",
+    "core_wheel_state": "NOT EXECUTED: nothing was installed from a 0.5.1 wheel",
+    "schema_bundle_state": "NOT EXECUTED for 0.5.1; the canonical schemas are unchanged since 0.5.0",
+    "note": "No 0.5.1 distribution exists yet. Hosted CI builds the candidate once from the exact committed revision and installs it in a clean room; the release workflow reuses those hosted bytes unchanged and stops unless the live-host matrix authorizes them."
   },
   "local_rollout": {
-    "components": "Core, PDF, audio, Chronicle, and video",
-    "global": "Core/PDF/audio 0.5.0 plus Chronicle/video 0.1.0 installed from the exact final local wheel set",
-    "doctors": "Codex, Claude, OMP, Grok, Kimi, and Cursor PASS; absent Copilot and lifecycle-limited Goose WARN; Chronicle self-doctor PASS",
-    "project_overrides": "Converge Claude and Nexo Codex PASS at 0.5.0",
-    "rollback": "A current 54-path Brief-Spec-owned snapshot and full-stack wheel restore command are retained; the post-install rollback was not destructively rerun in this documentation pass"
+    "components": "Core",
+    "global": "NOT EXECUTED for 0.5.1: no global installation was made from this revision",
+    "doctors": "NOT EXECUTED for 0.5.1",
+    "project_overrides": "NOT EXECUTED for 0.5.1",
+    "rollback": "NOT EXECUTED for 0.5.1"
   },
   "optional_gates": {
-    "browser": "PASS at desktop and mobile widths with zero external requests",
-    "pdf": "PASS for selectable text, fonts, metadata, geometry, page rendering, and deterministic bundle bytes",
-    "local_macos_audio": "PASS for MP3 decoding, duration, disclosure, and source-script hash. Audio bytes are **not** deterministic: macOS speech synthesis varies slightly between runs (seen on macOS 26.7 hosted runners), so a repeated rendering is checked by matching duration within 2%, not by identical bytes",
-    "video": "PASS for offline 1600x900 H.264/AAC rendering, sidecars, manifest/receipt integrity, and source hashes",
-    "openai_audio": "Not run because OPENAI_API_KEY is absent; mocked coverage passed"
+    "browser": "NOT EXECUTED locally for 0.5.1",
+    "pdf": "NOT EXECUTED locally for 0.5.1; the hosted run of the source basis passed its PDF download job",
+    "local_macos_audio": "NOT EXECUTED locally for 0.5.1 (no macOS host); the hosted run of the source basis passed its local audio download job",
+    "video": "NOT EXECUTED for 0.5.1",
+    "openai_audio": "NOT EXECUTED: no OpenAI key is used here"
   },
   "host_maturity": {
     "codex": "live-verified",
@@ -48,12 +52,12 @@
     "cursor": "experimental",
     "goose": "experimental"
   },
-  "host_live_evidence": "Retained 0.5.0 baseline: Codex 8/8, Claude 8/8, OMP 4/4, Grok 4/4, and Kimi 4/4 passed; current exact-wheel synthetic probes pass but the full live matrix was not rerun on this worktree",
+  "host_live_evidence": "Retained 0.5.0 baseline recorded by the original project: Codex 8/8, Claude 8/8, OMP 4/4, Grok 4/4, and Kimi 4/4 passed. The live matrix was NOT EXECUTED for 0.5.1 and has never been run from this repository",
   "live_e2e_authorization": {
     "status": "stale-for-current-worktree",
     "evidence": "release/live-e2e-evidence.json",
     "source_worktree_fingerprint": "975647c437867b419979db657413ce7e377ce1e19ad678eaeb18a3328781c6ec",
-    "blocker": "the retained live evidence predates the current Human Continuity, repository-layout, documentation, and portability changes"
+    "blocker": "the retained live evidence was recorded by the original project for 0.5.0 and predates every change made in this repository"
   },
   "live_e2e": {
     "codex": {"passed": 8, "required": 8, "evidence": ".briefspec/live-e2e/ultimate-final-codex/summary.json"},
@@ -63,11 +67,12 @@
     "kimi": {"passed": 4, "required": 4, "evidence": ".briefspec/live-e2e/ultimate-final-kimi/summary.json"}
   },
   "hosted_ci": {
-    "run_id": 31784833997,
-    "revision": "872a85b110866dee52d7fae440d39fbbeace7883",
-    "status": "executed-with-failures",
+    "run_id": 43638787709,
+    "revision": "e0879856cd27f61b7fc91426052c4b2897456dda",
+    "status": "passed (20 of 20 jobs)",
     "steps_executed": true,
-    "blocker": "the last run exposed four Windows portability assertions and a missing ffmpeg dependency in the macOS audio lane; both are fixed locally but not yet rerun on a committed exact revision"
+    "blocker": "it ran the source basis, not the 0.5.1 commit, and its candidate was reported as not release-authorized",
+    "explanation": "The recorded hosted run passed on the revision this candidate was cut from: Linux, macOS, and Windows on Python 3.11 to 3.14, the plugin validators, the PDF and audio download jobs, and the exact-SHA candidate build with clean-room installation. It is not a run of the 0.5.1 commit itself, which gets its own run on the pull request and again on `main`."
   },
   "publication": {
     "github_release": "not-published",
@@ -79,14 +84,15 @@
     "authorized": false
   },
   "schemas": {
-    "namespace": "GitHub v0.5.0 release assets",
+    "namespace": "Release-asset identifiers of the original project's v0.5.0 (unchanged in 0.5.1)",
     "offline_bundle": "brief-spec-schemas.bundle.json",
-    "published": false
+    "published": false,
+    "state": "NOT EXECUTED for 0.5.1: the bundle was not rebuilt; not published"
   },
   "account_gates": [
-    "Commit the candidate and rerun the full live and hosted matrix on that exact revision",
-    "Register PyPI Trusted Publishers for brief-spec and the PDF/audio renderers",
-    "Register separate publishers for Chronicle/video only when those experimental packages are promoted",
-    "Approve the v0.5.0 tag and public release after the exact-revision gates pass"
+    "Create the v0.5.1 tag after the merge (owner). The tag starts release.yml, which stops at its authorization step and publishes nothing while the live-host matrix is stale",
+    "Re-run the five-host live matrix on the exact revision to be released; it has not been run from this repository",
+    "Decide whether this repository publishes to PyPI at all: the project names and Trusted Publishers belong to the original project",
+    "Approve a public GitHub release only after the exact-revision gates pass"
   ]
 }

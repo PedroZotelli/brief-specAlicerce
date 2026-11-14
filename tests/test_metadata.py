@@ -47,6 +47,37 @@ def test_plugin_manifests_share_identity_and_version() -> None:
     assert all(item["skills"].rstrip("/").endswith("skills") for item in manifests[1:])
 
 
+THIS_REPOSITORY = "PedroZotelli/brief-specAlicerce"
+
+
+def test_project_links_point_to_this_repository() -> None:
+    """Links people act on (homepage, source, issue tracker) lead here.
+
+    They pointed to the original project, so an issue about this line would have
+    been filed there. Schema `$id` values are identifiers, not links, and are
+    checked separately.
+    """
+    metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    urls = metadata["project"]["urls"]
+    assert urls["Homepage"] == f"https://github.com/{THIS_REPOSITORY}"
+    assert urls["Repository"] == f"https://github.com/{THIS_REPOSITORY}"
+    assert urls["Issues"] == f"https://github.com/{THIS_REPOSITORY}/issues"
+    for relative in ("plugin.json", ".claude-plugin/plugin.json"):
+        manifest = json.loads((ROOT / relative).read_text(encoding="utf-8"))
+        assert manifest["homepage"] == f"https://github.com/{THIS_REPOSITORY}", relative
+        assert manifest["repository"] == f"https://github.com/{THIS_REPOSITORY}", relative
+
+
+def test_release_truth_names_this_repository_and_version() -> None:
+    truth = json.loads((ROOT / "release" / "truth-boundary.json").read_text(encoding="utf-8"))
+    assert truth["repository"] == THIS_REPOSITORY
+    assert truth["version"] == __version__
+    assert truth["publication"]["authorized"] is False
+    verification = (ROOT / "docs" / "verification.md").read_text(encoding="utf-8")
+    assert f"github.com/{THIS_REPOSITORY}" in verification
+    assert "github.com/luanmorenommaciel/brief-spec/actions" not in verification
+
+
 def test_root_plugin_component_paths_exist() -> None:
     manifest = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))
     assert manifest["$schema"] == "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"

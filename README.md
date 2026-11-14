@@ -10,15 +10,15 @@ Brief-Spec is a type-aware, evidence-backed delivery contract for AI coding harn
 
 <p align="center">
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%2B-A56BFF?labelColor=111720" alt="Python 3.11+"></a>
-  <a href="https://github.com/luanmorenommaciel/brief-spec/releases/tag/v0.2.0"><img src="https://img.shields.io/badge/public_release-v0.2.0-070A0F?labelColor=111720" alt="Public release v0.2.0"></a>
-  <a href="docs/verification.md"><img src="https://img.shields.io/badge/source_candidate-0.5.0-29313A?labelColor=111720" alt="Source candidate 0.5.0"></a>
+  <a href="docs/verification.md"><img src="https://img.shields.io/badge/public_release-none-070A0F?labelColor=111720" alt="Public release: none"></a>
+  <a href="docs/verification.md"><img src="https://img.shields.io/badge/source_candidate-0.5.1-29313A?labelColor=111720" alt="Source candidate 0.5.1"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-29313A?labelColor=111720" alt="MIT License"></a>
 </p>
 
-**Public release v0.2.0** · Source candidate 0.5.0 · Not on PyPI
+**No public release of this repository** · Source candidate 0.5.1 · Not on PyPI
 
-- Public release: `v0.2.0` on GitHub.
-- Source candidate: `v0.5.0` in this checkout. Locally verified is not hosted or published.
+- Public release: none from this repository. `v0.2.0` is a GitHub release of the original project.
+- Source candidate: `0.5.1` in this checkout. Locally verified is not hosted or published.
 
 [The problem](#the-problem) · [How it works](#how-it-works) · [Outcome Brief](#outcome-brief) · [Docs](#documentation) · [Skills](#why-the-skills-exist) · [Harness](#harness-support) · [CLI](#cli) · [Install](#install)
 
@@ -291,8 +291,8 @@ A `.claude-plugin/` directory is present in this repository for local plugin dev
 ### First journey
 
 ```bash
-# Install the public release
-uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.0
+# Install from the tag
+uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.1
 
 # Verify the installation
 brief-spec --version
@@ -358,13 +358,17 @@ Project values override user values. See [docs/configuration.md](docs/configurat
 Brief-Spec requires **Python 3.11+** and runs on Linux, macOS, and Windows (native
 Python; no administrator rights). The canonical distribution is not yet on PyPI.
 
-### From the tag (v0.5.0)
+### From the tag (v0.5.1)
 
 ```bash
-uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.0
+uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.1
 ```
 
-### Dogfood from checkout (0.5.0)
+In Claude Code, an installed plugin picks up new code only when the version number
+changes. After a version is merged, update the plugin; if it still reports the old
+version, uninstall and install it again.
+
+### Dogfood from checkout (0.5.1)
 
 ```bash
 uv tool install --force --reinstall \
@@ -442,6 +446,7 @@ Read the complete [Human Continuity architecture](docs/human-continuity.md).
 | Version | State | Notes |
 | --- | --- | --- |
 | v0.2.0 | Published GitHub release of the original project | Not a release of this repository |
+| 0.5.1 | Source candidate (patch) | Portuguese in the classifier, short orders, proportional follow-ups. Local suite and source release verification pass on Windows; hosted CI green on the revision it was cut from; wheel, live-host matrix, and publication NOT EXECUTED. See the [verification record](docs/verification.md) |
 | 0.5.0 | Source candidate, tag `v0.5.0` | Hosted CI green on Linux, macOS, and Windows (Python 3.11–3.14); not release-authorized until the five-host live matrix is re-run on this line; not published |
 | 0.3.0, 0.4.0 | Unpublished | Folded into 0.5.0 |
 

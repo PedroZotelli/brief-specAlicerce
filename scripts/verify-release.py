@@ -793,8 +793,8 @@ def check_truth_boundary(verifier: Verifier, version: str) -> None:
         evidence.get("version") == version, "truth boundary version must match package"
     )
     verifier.require(
-        evidence.get("repository") == "luanmorenommaciel/brief-spec",
-        "truth boundary must use the canonical repository",
+        evidence.get("repository") == "PedroZotelli/brief-specAlicerce",
+        "truth boundary must name this repository, not the original project",
     )
     release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
     verifier.require(
@@ -813,6 +813,9 @@ def check_truth_boundary(verifier: Verifier, version: str) -> None:
         "brief-spec-outcome-brief.schema.json",
         "brief-spec-session-checkpoint.schema.json",
     )
+    # Schema identifiers are names, not download links: they keep the namespace
+    # they were issued under (the original project's v0.5.0) while the schemas are
+    # unchanged, whatever this repository's version is.
     expected_prefix = "https://github.com/luanmorenommaciel/brief-spec/releases/download/v0.5.0/"
     for name in canonical_schemas:
         schema = load_json(Path("schemas") / name, verifier)
