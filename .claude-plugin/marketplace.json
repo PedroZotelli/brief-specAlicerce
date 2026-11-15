@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Brief-Spec cross-agent presentation contract",
-    "version": "0.5.1"
+    "version": "0.5.2"
   },
   "plugins": [
     {
       "name": "brief-spec",
       "description": "Predictable, evidence-backed agent handoffs.",
-      "version": "0.5.1",
+      "version": "0.5.2",
       "source": "./"
     }
   ]

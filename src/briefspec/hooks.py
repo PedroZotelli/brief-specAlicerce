@@ -60,6 +60,39 @@ SHORT_FOLLOW_UP_CONTEXT = (
 )
 
 
+# A host delivers some of its own messages through the prompt channel. Claude Code
+# does it when a background command finishes: a <task-notification> block, alone or
+# behind a preamble that says it is not user input, sometimes inside a
+# <system-reminder> wrapper. Nobody typed it, so it is not a request.
+_NOTICE_BLOCK = re.compile(r"<task-notification>.*?</task-notification>", re.DOTALL)
+_NOTICE_PREAMBLE = "[SYSTEM NOTIFICATION - NOT USER INPUT]"
+_REMINDER_WRAPPER = re.compile(r"\A<system-reminder>(?P<body>.*)</system-reminder>\Z", re.DOTALL)
+
+
+def is_automatic_notice(prompt: str) -> bool:
+    """True when the prompt holds nothing but background-task notices from the host.
+
+    Any text of the user's own, before or after the notice, makes it a prompt again:
+    the user's words are never dropped.
+    """
+    value = prompt.strip()
+    wrapped = _REMINDER_WRAPPER.match(value)
+    if wrapped:
+        value = wrapped.group("body").strip()
+    blocks = list(_NOTICE_BLOCK.finditer(value))
+    if not blocks:
+        return False
+    if value[blocks[-1].end() :].strip():
+        return False
+    before = value[: blocks[0].start()].strip()
+    if before and not before.startswith(_NOTICE_PREAMBLE):
+        return False
+    between = "".join(
+        value[left.end() : right.start()] for left, right in zip(blocks, blocks[1:], strict=False)
+    )
+    return not between.strip()
+
+
 def _is_short_follow_up(prompt: str) -> bool:
     value = prompt.strip()
     return (
@@ -138,6 +171,10 @@ def process_event(
     effective = config or load_config(event.cwd)
     diagnostics: list[str] = []
     prompt = _content_text(payload.get("prompt")) or ""
+    if event.type is EventType.USER_PROMPT and is_automatic_notice(prompt):
+        # Not the user's words: no classification, no turn, no method context, no
+        # injected instructions. The session state is left exactly as it was.
+        return HookDecision(diagnostics=("automatic notice ignored",))
     try:
         with session_lock(event.runtime, event.session_id):
             state = load_session(event.runtime, event.session_id, event.occurred_at)

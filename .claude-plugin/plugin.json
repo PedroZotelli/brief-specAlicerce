@@ -1,6 +1,6 @@
 {
   "name": "brief-spec",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Type-aware, evidence-backed reading and delivery for AI coding agents.",
   "author": {
     "name": "Luan Moreno Maciel"

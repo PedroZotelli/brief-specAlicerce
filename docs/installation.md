@@ -14,7 +14,7 @@ Brief-Spec has no runtime Python dependencies and performs no network calls from
 ## Published and candidate installation
 
 This repository has published no release; `v0.2.0` is a GitHub release of the
-original project. The source checkout is a `0.5.1` candidate and must not be
+original project. The source checkout is a `0.5.2` candidate and must not be
 described as published until current exact-worktree live gates, hosted CI,
 GitHub Release, and PyPI evidence all pass. The retained five-host baseline is
 not an exact-current-worktree rerun.
@@ -22,7 +22,7 @@ not an exact-current-worktree rerun.
 Install from the tag:
 
 ```bash
-uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.1
+uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.2
 briefspec install all --scope user
 briefspec doctor all --probe
 ```
@@ -51,9 +51,9 @@ version-pinned core and renderer distributions. Chronicle and video remain a
 separate experimental extension track until they are independently published:
 
 ```bash
-uv tool install --force "brief-spec==0.5.1" \
-  --with "brief-spec-renderer-pdf==0.5.1" \
-  --with "brief-spec-renderer-audio==0.5.1"
+uv tool install --force "brief-spec==0.5.2" \
+  --with "brief-spec-renderer-pdf==0.5.2" \
+  --with "brief-spec-renderer-audio==0.5.2"
 brief-spec setup all --scope user --require codex,claude,omp,grok,kimi
 brief-spec doctor all --scope user --probe --all-scopes
 ```
@@ -185,7 +185,7 @@ The repository ships native manifests in addition to the portable installer.
 ### Codex
 
 ```bash
-codex plugin marketplace add PedroZotelli/brief-specAlicerce --ref v0.5.1
+codex plugin marketplace add PedroZotelli/brief-specAlicerce --ref v0.5.2
 codex plugin add brief-spec@brief-spec
 ```
 
