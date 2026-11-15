@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "brief-spec"
-version = "0.5.0"
+version = "0.5.1"
 description = "Type-aware, evidence-backed delivery contracts for AI coding harnesses."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -33,9 +33,9 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/luanmorenommaciel/brief-spec"
-Repository = "https://github.com/luanmorenommaciel/brief-spec"
-Issues = "https://github.com/luanmorenommaciel/brief-spec/issues"
+Homepage = "https://github.com/PedroZotelli/brief-specAlicerce"
+Repository = "https://github.com/PedroZotelli/brief-specAlicerce"
+Issues = "https://github.com/PedroZotelli/brief-specAlicerce/issues"
 
 [project.scripts]
 brief-spec = "brief_spec.cli:main"

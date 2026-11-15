@@ -33,7 +33,7 @@ def main() -> int:
         raise SystemExit("No wheel or source distribution found")
     repository = os.environ.get(
         "GITHUB_REPOSITORY",
-        "luanmorenommaciel/brief-spec",
+        "PedroZotelli/brief-specAlicerce",
     )
     run_id = os.environ.get("GITHUB_RUN_ID")
     provenance_urls = []

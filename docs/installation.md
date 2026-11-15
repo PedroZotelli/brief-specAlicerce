@@ -13,21 +13,22 @@ Brief-Spec has no runtime Python dependencies and performs no network calls from
 
 ## Published and candidate installation
 
-The public GitHub release is currently `v0.2.0`. The source checkout is a
-`v0.5.0` candidate and must not be described as published until current
-exact-worktree live gates, hosted CI, GitHub Release, and PyPI evidence all
-pass. The retained five-host baseline is not an exact-current-worktree rerun.
+This repository has published no release; `v0.2.0` is a GitHub release of the
+original project. The source checkout is a `0.5.1` candidate and must not be
+described as published until current exact-worktree live gates, hosted CI,
+GitHub Release, and PyPI evidence all pass. The retained five-host baseline is
+not an exact-current-worktree rerun.
 
-Install the public release:
+Install from the tag:
 
 ```bash
-uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.0
+uv tool install git+https://github.com/PedroZotelli/brief-specAlicerce.git@v0.5.1
 briefspec install all --scope user
 briefspec doctor all --probe
 ```
 
-Those commands intentionally use the legacy `v0.2.0` interface. The `briefspec`
-alias remains supported throughout `0.x`, but new installations use `brief-spec`.
+Those commands use the `briefspec` alias, which remains supported throughout
+`0.x`; new installations use `brief-spec`.
 
 Dogfood the complete candidate stack from its checkout. Installing Chronicle
 does not initialize or capture any project:
@@ -45,14 +46,14 @@ brief-spec doctor all --scope user --probe --all-scopes
 brief-spec-chronicle --version
 ```
 
-After `v0.5.0` is published to PyPI, replace the candidate with immutable,
+If a `0.5.x` version is ever published to PyPI, replace the candidate with immutable,
 version-pinned core and renderer distributions. Chronicle and video remain a
 separate experimental extension track until they are independently published:
 
 ```bash
-uv tool install --force "brief-spec==0.5.0" \
-  --with "brief-spec-renderer-pdf==0.5.0" \
-  --with "brief-spec-renderer-audio==0.5.0"
+uv tool install --force "brief-spec==0.5.1" \
+  --with "brief-spec-renderer-pdf==0.5.1" \
+  --with "brief-spec-renderer-audio==0.5.1"
 brief-spec setup all --scope user --require codex,claude,omp,grok,kimi
 brief-spec doctor all --scope user --probe --all-scopes
 ```
@@ -184,7 +185,7 @@ The repository ships native manifests in addition to the portable installer.
 ### Codex
 
 ```bash
-codex plugin marketplace add PedroZotelli/brief-specAlicerce --ref v0.5.0
+codex plugin marketplace add PedroZotelli/brief-specAlicerce --ref v0.5.1
 codex plugin add brief-spec@brief-spec
 ```
 

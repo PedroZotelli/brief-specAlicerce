@@ -48,10 +48,19 @@ def render(value: dict[str, object]) -> str:
     assert isinstance(live_authorization, dict)
     assert isinstance(gates, list)
     gate_lines = "\n".join(f"- {gate}" for gate in gates)
+    artifact_note = artifacts.get(
+        "note",
+        "The artifact manifest intentionally has no hosted source authorization: these bytes came "
+        "from an\nuncommitted local worktree. Hosted CI must rebuild once from the exact committed "
+        "revision and the\nrelease workflow must reuse those hosted bytes unchanged.",
+    )
     ci_url = f"https://github.com/{value['repository']}/actions/runs/{ci['run_id']}"
-    repository_status = f"Canonical {value['repository_visibility']} repository confirmed"
+    repository_status = f"{str(value['repository_visibility']).capitalize()} repository"
+    release_state = value.get("latest_public_release_state", "Published historical release")
     global_components = rollout.get("components", "Core plus PDF and audio renderers")
-    if ci["steps_executed"]:
+    if ci.get("explanation"):
+        hosted_explanation = str(ci["explanation"])
+    elif ci["steps_executed"]:
         hosted_explanation = (
             "The recorded hosted run executed repository jobs and is real platform evidence. "
             f"It did not authorize release because {ci['blocker']}. The current uncommitted "
@@ -77,7 +86,7 @@ def render(value: dict[str, object]) -> str:
 
 Updated: `{value["updated_at"]}`
 Source basis: `{value["source_revision"]}`
-Canonical repository: [github.com/{value["repository"]}](https://github.com/{value["repository"]})
+Repository: [github.com/{value["repository"]}](https://github.com/{value["repository"]})
 
 This document separates implementation, validation, host evidence, and publication. A local or
 globally installed candidate is not a public release.
@@ -87,16 +96,16 @@ globally installed candidate is not a public release.
 | Boundary | Evidence | Status |
 | --- | --- | --- |
 | Source candidate | Version `{value["version"]}` derived from `{value["source_revision"]}` | {value["candidate_state"]} |
-| Repository | `{value["repository_visibility"]}` canonical repository | {repository_status} |
-| Latest GitHub release | `{value["latest_public_release"]}` | Published historical release |
-| Local gates | {local["tests"]} tests, {local["release_checks"]} source checks, {local["wheel_release_checks"]} wheel checks, {local["coverage_percent"]}% coverage on {local["platform"]} / Python {local["python"]} | {local["current_state"]} |
+| Repository | `{value["repository"]}` | {repository_status} |
+| Latest GitHub release | `{value["latest_public_release"]}` | {release_state} |
+| Local gates | {local["tests"]} tests, {local["release_checks"]} source checks, wheel checks: {local["wheel_release_checks"]}, {local["coverage_percent"]}% coverage on {local["platform"]} / Python {local["python"]} | {local["current_state"]} |
 | Hosted CI | [run {ci["run_id"]}]({ci_url}) for `{ci["revision"]}` | {ci["status"]}; steps executed: `{str(ci["steps_executed"]).lower()}` |
 | Live harness evidence | Sanitized disposable-repository results retained locally | {value["host_live_evidence"]} |
 | Live release authorization | `{live_authorization["evidence"]}`; source fingerprint `{live_authorization["source_worktree_fingerprint"]}` | {live_authorization["status"]} by `{live_authorization["blocker"]}` |
-| GitHub `v0.5.0` | Release API and workflow state | {publication["github_release"]} |
+| GitHub `v{value["version"]}` | Release API and workflow state | {publication["github_release"]} |
 | PyPI core/PDF/audio | PyPI project/file lookup | {publication["pypi_core"]} / {publication["pypi_pdf"]} / {publication["pypi_audio"]} |
 | PyPI Chronicle/video | Independent extension project/file lookup | {publication.get("pypi_chronicle", "not-published")} / {publication.get("pypi_video", "not-published")} |
-| Canonical schemas | `{schemas["namespace"]}` plus `{schemas["offline_bundle"]}` | {"published" if schemas["published"] else "built locally; not published"} |
+| Canonical schemas | {schemas["namespace"]} plus `{schemas["offline_bundle"]}` | {"published" if schemas["published"] else schemas.get("state", "built locally; not published")} |
 
 {hosted_explanation} {live_gate_statement} Public release remains blocked on the exact-SHA live,
 hosted, and account-owned publication gates.
@@ -133,16 +142,14 @@ release authorization fails closed unless all required hosts pass.
 | Boundary | Retained evidence | Status |
 | --- | --- | --- |
 | Distribution set | `{artifacts["directory"]}`; manifest `{artifacts["release_manifest_sha256"]}` | {artifacts["state"]} |
-| Core wheel | SHA-256 `{artifacts["core_wheel_sha256"]}` | Installed globally from these exact bytes |
-| Offline schemas | SHA-256 `{artifacts["schema_bundle_sha256"]}` | Built and validated locally; not published |
+| Core wheel | SHA-256 `{artifacts["core_wheel_sha256"]}` | {artifacts.get("core_wheel_state", "Installed globally from these exact bytes")} |
+| Offline schemas | SHA-256 `{artifacts["schema_bundle_sha256"]}` | {artifacts.get("schema_bundle_state", "Built and validated locally; not published")} |
 | Global tool | {global_components} | {rollout["global"]} |
 | Global doctors | User and detected project scopes | {rollout["doctors"]} |
 | Intentional overrides | Receipt-owned paths only | {rollout["project_overrides"]} |
 | Rollback | Byte-for-byte manifest verification | {rollout["rollback"]} |
 
-The artifact manifest intentionally has no hosted source authorization: these bytes came from an
-uncommitted local worktree. Hosted CI must rebuild once from the exact committed revision and the
-release workflow must reuse those hosted bytes unchanged.
+{artifact_note}
 
 ## Browser and optional-renderer gates
 
@@ -154,7 +161,10 @@ release workflow must reuse those hosted bytes unchanged.
 | Offline Chronicle video | {optional.get("video", "Not run")} |
 | Explicit-consent OpenAI audio | {optional["openai_audio"]} |
 
-## Candidate trust corrections validated locally
+## Trust corrections carried by this line
+
+These are properties of the code inherited from 0.5.0. For this version they were re-checked
+only as far as the local test suite and the source release verification go.
 
 - honest classification with negation masking, abstention, decision records, and reported-marker
   downgrade;

@@ -14,7 +14,7 @@ from typing import Any
 from briefspec.delivery import render_spoken_text, sha256_bytes
 from briefspec.state import atomic_write_public
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
 
 
 def _tool_version(command: str) -> str:
