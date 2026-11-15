@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "brief-spec-renderer-audio"
-version = "0.5.1"
+version = "0.5.2"
 description = "Verified local macOS and opt-in OpenAI audio rendering for Brief-Spec."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -5,6 +5,30 @@ This project uses semantic versioning.
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-11-15 (source candidate, not published)
+
+### Fixed
+
+- The prompt hook no longer treats the host's automatic notices as the user's
+  words. When a background command finishes, Claude Code delivers a
+  `<task-notification>` block through the prompt channel, and the hook
+  classified it, counted it as a turn, injected the full profile, and re-read
+  the method context from text nobody typed: a notice whose summary mentioned
+  "Seamwise" switched a session's method context to Seamwise. A prompt that
+  holds nothing but such notices (bare, behind the "not user input" preamble, or
+  inside a `<system-reminder>` wrapper) is now ignored and leaves the session
+  state untouched. Any words of the user's own beside the notice make it a
+  normal prompt. `tests/test_automatic_notices.py` uses the notice shapes
+  observed in real sessions.
+
+### Release truth
+
+- The `v0.5.1` tag started the release workflow, which stopped at "Require
+  exact-SHA CI authorization" and published nothing (run 43713825209). That is
+  the intended fail-closed behavior while the live-host matrix is stale; it is
+  now recorded as exercised instead of read from the workflow.
+- `release/truth-boundary.json` and `docs/verification.md` describe 0.5.2.
+
 ## [0.5.1] - 2026-11-14 (source candidate, not published)
 
 A patch version so that installed copies pick the changes up: Claude Code updates

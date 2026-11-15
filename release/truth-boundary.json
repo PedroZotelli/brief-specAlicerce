@@ -1,45 +1,45 @@
 {
   "schema_version": "1.0",
   "kind": "brief-spec-truth-boundary",
-  "version": "0.5.1",
-  "updated_at": "2026-11-14",
-  "source_revision": "e0879856cd27f61b7fc91426052c4b2897456dda",
+  "version": "0.5.2",
+  "updated_at": "2026-11-15",
+  "source_revision": "e9c866acbed3e9d05abbefbdba661be9a2c65ec7",
   "repository": "PedroZotelli/brief-specAlicerce",
   "repository_visibility": "public",
   "latest_public_release": "none in this repository",
-  "latest_public_release_state": "This repository has published no release. `v0.2.0` is a release of the original project",
+  "latest_public_release_state": "This repository has published no release (tags `v0.5.0` and `v0.5.1` exist without one). `v0.2.0` is a release of the original project",
   "candidate_state": "Patch candidate on a branch of this repository; not tagged and not published",
   "local_evidence": {
-    "tests": 572,
+    "tests": 590,
     "release_checks": 427,
     "wheel_release_checks": "NOT EXECUTED (no wheel was built from this revision)",
-    "coverage_percent": 85.59,
+    "coverage_percent": 85.67,
     "python": "3.13.0",
     "platform": "Windows 11",
-    "current_state": "Lint, formatting, source release verification, and the test suite (572 passed, 3 skipped) pass locally. The wheel and sdist clean-room gates, Chronicle E2E, browser, PDF, audio, and video gates were NOT EXECUTED locally for 0.5.1"
+    "current_state": "Lint, formatting, source release verification, and the test suite (590 passed, 3 skipped) pass locally. The wheel and sdist clean-room gates, Chronicle E2E, browser, PDF, audio, and video gates were NOT EXECUTED locally for 0.5.2"
   },
   "candidate_artifacts": {
     "directory": "NOT EXECUTED",
     "release_manifest_sha256": "NOT EXECUTED",
     "core_wheel_sha256": "NOT EXECUTED",
     "schema_bundle_sha256": "NOT EXECUTED",
-    "state": "NOT EXECUTED for 0.5.1: no wheel, sdist, or release manifest was built locally from this revision",
-    "core_wheel_state": "NOT EXECUTED: nothing was installed from a 0.5.1 wheel",
-    "schema_bundle_state": "NOT EXECUTED for 0.5.1; the canonical schemas are unchanged since 0.5.0",
-    "note": "No 0.5.1 distribution exists yet. Hosted CI builds the candidate once from the exact committed revision and installs it in a clean room; the release workflow reuses those hosted bytes unchanged and stops unless the live-host matrix authorizes them."
+    "state": "NOT EXECUTED for 0.5.2: no wheel, sdist, or release manifest was built locally from this revision",
+    "core_wheel_state": "NOT EXECUTED: nothing was installed from a 0.5.2 wheel",
+    "schema_bundle_state": "NOT EXECUTED for 0.5.2; the canonical schemas are unchanged since 0.5.0",
+    "note": "No 0.5.2 distribution exists yet. Hosted CI builds the candidate once from the exact committed revision and installs it in a clean room; the release workflow reuses those hosted bytes unchanged and stops unless the live-host matrix authorizes them."
   },
   "local_rollout": {
     "components": "Core",
-    "global": "NOT EXECUTED for 0.5.1: no global installation was made from this revision",
-    "doctors": "NOT EXECUTED for 0.5.1",
-    "project_overrides": "NOT EXECUTED for 0.5.1",
-    "rollback": "NOT EXECUTED for 0.5.1"
+    "global": "NOT EXECUTED for 0.5.2: no global installation was made from this revision",
+    "doctors": "NOT EXECUTED for 0.5.2",
+    "project_overrides": "NOT EXECUTED for 0.5.2",
+    "rollback": "NOT EXECUTED for 0.5.2"
   },
   "optional_gates": {
-    "browser": "NOT EXECUTED locally for 0.5.1",
-    "pdf": "NOT EXECUTED locally for 0.5.1; the hosted run of the source basis passed its PDF download job",
-    "local_macos_audio": "NOT EXECUTED locally for 0.5.1 (no macOS host); the hosted run of the source basis passed its local audio download job",
-    "video": "NOT EXECUTED for 0.5.1",
+    "browser": "NOT EXECUTED locally for 0.5.2",
+    "pdf": "NOT EXECUTED locally for 0.5.2; the hosted run of the source basis passed its PDF download job",
+    "local_macos_audio": "NOT EXECUTED locally for 0.5.2 (no macOS host); the hosted run of the source basis passed its local audio download job",
+    "video": "NOT EXECUTED for 0.5.2",
     "openai_audio": "NOT EXECUTED: no OpenAI key is used here"
   },
   "host_maturity": {
@@ -52,7 +52,7 @@
     "cursor": "experimental",
     "goose": "experimental"
   },
-  "host_live_evidence": "Retained 0.5.0 baseline recorded by the original project: Codex 8/8, Claude 8/8, OMP 4/4, Grok 4/4, and Kimi 4/4 passed. The live matrix was NOT EXECUTED for 0.5.1 and has never been run from this repository",
+  "host_live_evidence": "Retained 0.5.0 baseline recorded by the original project: Codex 8/8, Claude 8/8, OMP 4/4, Grok 4/4, and Kimi 4/4 passed. The live matrix was NOT EXECUTED for 0.5.2 and has never been run from this repository",
   "live_e2e_authorization": {
     "status": "stale-for-current-worktree",
     "evidence": "release/live-e2e-evidence.json",
@@ -60,19 +60,39 @@
     "blocker": "the retained live evidence was recorded by the original project for 0.5.0 and predates every change made in this repository"
   },
   "live_e2e": {
-    "codex": {"passed": 8, "required": 8, "evidence": ".briefspec/live-e2e/ultimate-final-codex/summary.json"},
-    "claude": {"passed": 8, "required": 8, "evidence": ".briefspec/live-e2e/ultimate-final-claude/summary.json"},
-    "omp": {"passed": 4, "required": 4, "evidence": ".briefspec/live-e2e/ultimate-final-omp/summary.json"},
-    "grok": {"passed": 4, "required": 4, "evidence": ".briefspec/live-e2e/ultimate-final-grok-verified/summary.json"},
-    "kimi": {"passed": 4, "required": 4, "evidence": ".briefspec/live-e2e/ultimate-final-kimi/summary.json"}
+    "codex": {
+      "passed": 8,
+      "required": 8,
+      "evidence": ".briefspec/live-e2e/ultimate-final-codex/summary.json"
+    },
+    "claude": {
+      "passed": 8,
+      "required": 8,
+      "evidence": ".briefspec/live-e2e/ultimate-final-claude/summary.json"
+    },
+    "omp": {
+      "passed": 4,
+      "required": 4,
+      "evidence": ".briefspec/live-e2e/ultimate-final-omp/summary.json"
+    },
+    "grok": {
+      "passed": 4,
+      "required": 4,
+      "evidence": ".briefspec/live-e2e/ultimate-final-grok-verified/summary.json"
+    },
+    "kimi": {
+      "passed": 4,
+      "required": 4,
+      "evidence": ".briefspec/live-e2e/ultimate-final-kimi/summary.json"
+    }
   },
   "hosted_ci": {
-    "run_id": 43638787709,
-    "revision": "e0879856cd27f61b7fc91426052c4b2897456dda",
+    "run_id": 43713489125,
+    "revision": "e9c866acbed3e9d05abbefbdba661be9a2c65ec7",
     "status": "passed (20 of 20 jobs)",
     "steps_executed": true,
-    "blocker": "it ran the source basis, not the 0.5.1 commit, and its candidate was reported as not release-authorized",
-    "explanation": "The recorded hosted run passed on the revision this candidate was cut from: Linux, macOS, and Windows on Python 3.11 to 3.14, the plugin validators, the PDF and audio download jobs, and the exact-SHA candidate build with clean-room installation. It is not a run of the 0.5.1 commit itself, which gets its own run on the pull request and again on `main`."
+    "blocker": "it ran the source basis (0.5.1), not the 0.5.2 commit, and its candidate was reported as not release-authorized",
+    "explanation": "The recorded hosted run passed on the revision this candidate was cut from (0.5.1 on `main`): Linux, macOS, and Windows on Python 3.11 to 3.14, the plugin validators, the PDF and audio download jobs, and the exact-SHA candidate build with clean-room installation. It is not a run of the 0.5.2 commit itself, which gets its own run on the pull request and again on `main`. The release workflow was exercised once, by the `v0.5.1` tag (run 43713825209): it stopped at its authorization step and published nothing."
   },
   "publication": {
     "github_release": "not-published",
@@ -84,13 +104,13 @@
     "authorized": false
   },
   "schemas": {
-    "namespace": "Release-asset identifiers of the original project's v0.5.0 (unchanged in 0.5.1)",
+    "namespace": "Release-asset identifiers of the original project's v0.5.0 (unchanged in 0.5.2)",
     "offline_bundle": "brief-spec-schemas.bundle.json",
     "published": false,
-    "state": "NOT EXECUTED for 0.5.1: the bundle was not rebuilt; not published"
+    "state": "NOT EXECUTED for 0.5.2: the bundle was not rebuilt; not published"
   },
   "account_gates": [
-    "Create the v0.5.1 tag after the merge (owner). The tag starts release.yml, which stops at its authorization step and publishes nothing while the live-host matrix is stale",
+    "Create the v0.5.2 tag after the merge (owner). The tag starts release.yml, which stops at its authorization step and publishes nothing while the live-host matrix is stale (observed with v0.5.1, run 43713825209)",
     "Re-run the five-host live matrix on the exact revision to be released; it has not been run from this repository",
     "Decide whether this repository publishes to PyPI at all: the project names and Trusted Publishers belong to the original project",
     "Approve a public GitHub release only after the exact-revision gates pass"

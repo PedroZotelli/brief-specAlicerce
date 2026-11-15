@@ -51,6 +51,15 @@ A short **order** is a task, not a follow-up. A prompt that opens with a work ve
 "Run the tests", "Corrija o bug", "Rode os testes", optionally after "please" or "por favor")
 keeps the full profile, and it classifies the task when the session has no work type yet.
 
+### Automatic notices from the host
+
+Some hosts deliver their own messages through the prompt channel. Claude Code does it when a
+background command finishes: the hook receives a `<task-notification>` block, alone or behind a
+preamble that says it is not user input. Nobody typed it, so the hook ignores it: no
+classification, no turn counted, no method context read from it, and no instructions injected.
+The session keeps the work type the user's last prompt gave it. A prompt that carries any words
+of the user's own beside the notice is treated as a normal prompt.
+
 ### Languages
 
 The local classifier reads English and Portuguese. Each Portuguese pattern extends the English
